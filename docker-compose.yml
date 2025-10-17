@@ -1,0 +1,35 @@
+
+
+services:
+  pentest_hacker:
+    build: ./hacker
+    container_name: pentest_hacker
+    networks:
+      reversal:
+        ipv4_address: 172.28.100.11
+    expose:
+      - "22"
+      - "8000"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "curl -sSf http://localhost:8000/ >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  pentest_server:
+    build: ./server
+    container_name: pentest_server
+    networks:
+      reversal:
+        ipv4_address: 172.28.100.10
+    expose:
+      - "22"
+    depends_on:
+      pentest_hacker:
+        condition: service_healthy
+  
+networks:
+  reversal:
+    external: true
+

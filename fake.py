@@ -4,7 +4,7 @@ import csv
 fake = Faker()
 
 def fakedata(rows: int):
-    file = 'clientes.csv'
+    file = 'server/cypher/clients.csv'
     with open(file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',',
                                 quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
